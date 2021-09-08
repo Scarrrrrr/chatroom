@@ -8,6 +8,9 @@ import {websocket} from './utils/websocket.js'
 axios.defaults.baseURL = 'http://localhost:8080/'
 // 允许跨域携带数据
 axios.defaults.withCredentials = true
+// cookies相关
+const $cookies = require('vue-cookies')
+Vue.use($cookies)
 // 全局注册，这样在其他组件中就能通过 this.$axios 来调用http服务
 Vue.prototype.$axios = axios
 Vue.prototype.$ws = websocket
