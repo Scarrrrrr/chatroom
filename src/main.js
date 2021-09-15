@@ -1,5 +1,8 @@
 import Vue from 'vue'
 import App from './App.vue'
+import ElementUI from 'element-ui'
+import 'element-ui/lib/theme-chalk/index.css'
+import './assets/index.css'
 import axios from 'axios'
 import router from './router'
 import {websocket} from './utils/websocket.js'
@@ -14,6 +17,8 @@ Vue.use($cookies)
 // 全局注册，这样在其他组件中就能通过 this.$axios 来调用http服务
 Vue.prototype.$axios = axios
 Vue.prototype.$ws = websocket
+// element-ui
+Vue.use(ElementUI)
 
 new Vue({
     router,

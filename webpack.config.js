@@ -14,7 +14,8 @@ module.exports={
             { test: /\.css$/, use:['style-loader','css-loader'] },
             { test: /\.(png|jpg|gif)$/, use: 'url-loader' },
             { test: /\.(png|jpg|gif)$/, use: 'url-loader?limit=43960&name=[hash:8]-[name].[ext]' },
-            { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ }
+            { test: /\.js$/, use: 'babel-loader', exclude: /node_modules/ },
+            { test: /\.(eot|svg|ttf|woff|woff2)(\?\S*)?$/, use: ['file-loader'] }
         ]
     },
     devServer:{

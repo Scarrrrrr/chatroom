@@ -5,6 +5,11 @@ Vue.use(VueRouter)
 
 const routes = [
   {
+    path: '/',
+    meta: { title:"聊天室", requiresAuth: true },
+    component: () => import("../views/room.vue")
+  },
+  {
     path: '/register',
     name: 'register',
     meta: { title:"注册", requiresAuth:false },
@@ -15,12 +20,6 @@ const routes = [
     name: 'login',
     meta: { title:"登录", requiresAuth:false },
     component: () => import("../views/login.vue")
-  },
-  {
-    path: '/',
-    name: 'homepage',
-    meta: { title:"聊天室", requiresAuth: true },
-    component: () => import("../views/room.vue")
   },
   {
     path: '*',
@@ -36,9 +35,8 @@ const router = new VueRouter({
   })
 
 router.beforeEach((to, from, next) => {
+  document.title = to.meta.title
   if (to.matched.some(record => record.meta.requiresAuth)) {
-    console.log(to.matched)
-    document.title = to.matched[0].meta.title
     const userToken = router.app.$cookies.get('token')
     console.log('token: ' + userToken)
     if (userToken) {

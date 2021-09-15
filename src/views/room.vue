@@ -16,7 +16,16 @@
 
 <script>
 export default {
-
+  data(){
+    return{
+      token:null
+    }
+  },
+  mounted(){
+    if(!this.token){
+      this.$router.push('/login')
+    }
+  }
 }
 </script>
 
