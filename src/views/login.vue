@@ -52,6 +52,8 @@
 </template>
 
 <script>
+import { mapState, mapGetters} from 'vuex'
+
 export default {
   name:"login",
   data(){
@@ -66,6 +68,19 @@ export default {
         rememberMe: false
       }
     }
+  },
+  computed:{
+    isValid:function(){
+      const result = this.loginForm.username.length>2 
+      return result? result:""
+    },
+    ...mapState([
+      'loading',
+      'error'
+    ]),
+    ...mapGetters([
+      'hasError',
+    ])
   },
   created(){
     window.addEventListener('resize', this.getWidthNHeight)

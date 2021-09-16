@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import './assets/index.css'
 import axios from 'axios'
 import router from './router'
+import store from './store'
 import {websocket} from './utils/websocket.js'
 // 后台地址
 // axios.defaults.baseURL = 'http://121.36.26.71:8989/'
@@ -22,5 +23,6 @@ Vue.use(ElementUI)
 
 new Vue({
     router,
+    store,
     render: h => h(App)
 }).$mount('#app')
