@@ -35,19 +35,14 @@ const router = new VueRouter({
   })
 
 router.beforeEach((to, from, next) => {
-  document.title = to.meta.title
-  if (to.matched.some(record => record.meta.requiresAuth)) {
-    const userToken = router.app.$cookies.get('token')
-    console.log('token: ' + userToken)
-    if (userToken) {
-      next()
-    } else {
+  const userToken = router.app.$cookies.get('token')
+  if (to.meta.requiresAuth) {
+    if (!userToken) {
       document.title = "登录"
       next('/login')
     }
-  } else {
-    next()
-  }
+  } 
+  next()
 })
 
 export default router

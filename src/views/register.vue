@@ -25,6 +25,9 @@
         <el-form-item>
           <el-button @click="register">注 册</el-button>
         </el-form-item>
+        <el-form-item>
+          <el-button @click="back">返 回</el-button>
+        </el-form-item>
       </el-form>      
     </div>
 
@@ -44,6 +47,9 @@ export default {
     }
   },
   methods:{
+    back(){
+      this.$router.go(-1)
+    },
     register(){
       const user = this.registerForm
       axios({

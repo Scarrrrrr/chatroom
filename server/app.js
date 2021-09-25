@@ -7,11 +7,11 @@ const jwt = require('jsonwebtoken')
 const app = express()
 
 //配置中间件
-app.use(cookieSession({
-    name: 'mycookie', //后端传给前端的cookie名称
-    keys: ['aaa'], //加密层级
-    maxAge:1000*3600*24 //一天后失效
-}))
+// app.use(cookieSession({
+//     name: 'token', //后端传给前端的cookie名称
+//     keys: ['aaa'], //加密层级
+//     maxAge:1000*3600*24 //一天后失效
+// }))
 
 app.use(bodyParser.urlencoded({ extended:false }))
 
@@ -21,7 +21,9 @@ app.all("*",function(req,res,next){
     //设置允许跨域的域名，*代表允许任意域名跨域
     res.header("Access-Control-Allow-Origin",req.headers.origin);
     //允许的header类型
-    res.header("Access-Control-Allow-Headers","content-type,token");
+    res.header("Access-Control-Allow-Headers","*");
+    //允许前端获取header中的token
+    res.header("Access-Control-Expose-Headers","token");
     //跨域允许的请求方式 
     res.header("Access-Control-Allow-Methods","DELETE,PUT,POST,GET,OPTIONS");
     //允许携带验证信息
@@ -53,7 +55,6 @@ app.post('/register', (req,res)=>{
  */
 app.post('/login', (req,res)=>{
     const loginParam = req.body
-    console.log(loginParam)
     User.findOne({
         username:loginParam.username,
         password:loginParam.password
@@ -64,9 +65,10 @@ app.post('/login', (req,res)=>{
                 msg:"用户名或密码错误！"
             })
         }else{
-            req.session.code = 'userId'
+            // req.session.code = 'userId'
             let token = jwt.sign(loginParam,'aaa')
             res.header('token',token)
+            // res.setHeader('Set-Cookie', [`token=${token}`]);
             res.send({
                 code:200,
                 msg:"登录成功！",

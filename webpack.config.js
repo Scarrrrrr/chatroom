@@ -6,7 +6,8 @@ module.exports={
     entry: './src/main.js', //项目入口文件
     output:{
         path: path.resolve(__dirname, './dist'), //打包文件路径
-        filename: 'build.js'
+        filename: 'js/[name]-[hash].js',
+        publicPath: "/"
     },
     module:{
         rules:[
@@ -27,7 +28,7 @@ module.exports={
         hotOnly: true, //不自动刷新浏览器，省去很多麻烦
         open:true
     },
-    devtool: 'source-map',
+    devtool: 'eval-source-map',
     resolve:{
         alias:{
             utils: path.resolve(__dirname, 'utils')

@@ -1,12 +1,13 @@
 import axios from 'axios'
 import { Message } from 'element-ui'
+import _this from '../main.js'
 // import store from '@/store'
 // import storage from 'store'
 import { VueAxios } from './axios'
-// import { notification } from 'ant-design-vue'
 // import { ACCESS_TOKEN } from '@/store/mutation-types'
 
-const baseURL = process.env.VUE_APP_MODEL_BASE_URL
+// const baseURL = process.env.VUE_APP_MODEL_BASE_URL
+const baseURL = "http://localhost:8080"
 // 创建 axios 实例
 const request = axios.create({
   baseURL: baseURL, // api base_url
@@ -24,16 +25,15 @@ const err = (error) => {
     if (error.response.status === 403) {
       Message({
         message: 'Forbidden',
-        description: data.message
+        description: data.msg
       })
     }
     console.log(data)
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
-      console.log('Unauthorized')
-      // Message({
-      //   message: 'Unauthorized',
-      //   description: 'Authorization verification failed'
-      // })
+      Message({
+        message: 'Unauthorized',
+        description: 'Authorization verification failed'
+      })
     }
   }
   return Promise.reject(error)
@@ -41,7 +41,7 @@ const err = (error) => {
 
 // request interceptor
 request.interceptors.request.use(config => {
-  const token = window.$cookies.get('token')
+  const token = _this.$cookies.get('token')
 
   if (token) {
     config.headers['token'] = token // 让每个请求携带自定义 token 请根据实际情况自行修改
@@ -60,6 +60,10 @@ request.interceptors.request.use(config => {
 
 // response interceptor
 request.interceptors.response.use((response) => {
+  const token = response.headers.token
+  if(token){
+    _this.$cookies.set('token',token,"1d")
+  }
   return response.data
 }, err)
 

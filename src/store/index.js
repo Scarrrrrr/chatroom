@@ -6,21 +6,33 @@ import actions from './actions'
 
 Vue.use(Vuex)
 
-// vuex-persist 确保vuex状态在页面重载或者刷新的还保存在本地
+// vuex-persist 确保在页面重载或者刷新时vuex状态还保存在本地
 const vuexLocal = new VuexPersistence({
     storage:window.localStorage
 })
 
-export default new Vuex.Store({
+const store = new Vuex.Store({
     state:{
-
+        loading: false,
+        sending: false,
+        error: null,
+        user: null,
+        reconnect: false,
+        activeRoom: null,
+        rooms: [],
+        users: [],
+        messages: [],
+        userTyping: null
     },
     mutations,
     actions,
     getters:{
-
+        isLogin: state => state.user? true: false,
+        hasError: state => state.error ? true : false
     },
     plugins:[
         vuexLocal.plugin
     ],
 })
+
+export default store
