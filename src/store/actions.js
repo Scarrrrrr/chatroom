@@ -1,3 +1,4 @@
+import _this from '../main.js'
 import chatkit from '../utils/chatkit';
 // Helper function for displaying error messages
 function handleError(commit, error) {
@@ -45,8 +46,8 @@ export default {
   },
   async changeRoom({ commit }, roomId) {
     try {
-      const { id, name } = await chatkit.subscribeToRoom(roomId);
-      commit('setActiveRoom', { id, name });
+      // const { id, name } = await chatkit.subscribeToRoom(roomId);
+      commit('setActiveRoom',  roomId );
     } catch (error) {
       handleError(commit, error)
     }
@@ -65,7 +66,8 @@ export default {
   },
   async logout({ commit }) {
     commit('reset');
+    _this.$cookies.remove('token')
     // chatkit.disconnectUser();
-    // window.localStorage.clear();
+    window.localStorage.clear();
   }
 }

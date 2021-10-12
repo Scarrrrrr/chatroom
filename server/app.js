@@ -1,11 +1,11 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const { User } = require('./mongoose-db');
-const cookieSession = require('cookie-session')
+// const cookieSession = require('cookie-session')
+
 const jwt = require('jsonwebtoken')
 
 const app = express()
-
 //配置中间件
 // app.use(cookieSession({
 //     name: 'token', //后端传给前端的cookie名称
@@ -122,6 +122,28 @@ app.get('/api/loginout',(res,req)=>{
     })
 })
 
-app.listen(8080,function(){
+const server = app.listen(8080,function(){
     console.log("app is running on port 8080.")
+})
+
+const io = require('socket.io')(server,{
+    cors:{
+        origin: true,
+        credentials:true,
+        methods: ["GET", "POST"],
+        transports: ['websocket', 'polling'],
+    },
+    allowEIO3: true
+})
+
+// io.set('authorization',(handshake,callback)=>{
+//     console.log(handshake)
+// })
+
+io.sockets.on('connection', socket=>{
+    // console.log(socket.handshake.headers)
+    // socket.use()
+    socket.on('disconnect',()=>{
+        console.log('user disconnected')   
+    })
 })

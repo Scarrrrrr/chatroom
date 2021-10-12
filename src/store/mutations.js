@@ -1,5 +1,3 @@
-import _this from '../main.js'
-
 export default {
     setLogin(state,isLogin){
       state.isLogin = isLogin
@@ -47,6 +45,5 @@ export default {
       state.messages = [];
       state.rooms = [];
       state.user = null;
-      _this.$cookies.remove('token')
     }
   }

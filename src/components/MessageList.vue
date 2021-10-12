@@ -16,18 +16,43 @@
         </div>
       </div>
     </div>
+    <div>
+      <el-input
+        placeholder="Enter Message"
+        v-model="messageToSend">
+      </el-input>
+      <el-button @click="submit" type="success">发送</el-button>
+    </div>
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import { mapActions, mapState } from 'vuex'
 
 export default {
   name: 'message-list',
+  data(){
+    return{
+      messageToSend:''
+    }
+  },
   computed: {
     ...mapState([
+      'user',
       'messages',
+      'activeRoom',
     ])
+  },
+  methods:{
+    ...mapActions([
+      'sendMessage'
+    ]),
+    submit(){
+      this.sendMessage(this.messageToSend)
+    }
+  },
+  mounted(){
+    
   }
 }
 </script>

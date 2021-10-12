@@ -116,7 +116,7 @@ export default {
     },
     submit(){
       this.login(this.loginForm)
-      this.$router.go(0)
+      // this.$router.go(0)
     },
     // login() {
     //   const params = new URLSearchParams()
@@ -161,7 +161,6 @@ export default {
   },
   watch:{
     isLogin(newVal,oldVal){
-      console.log(newVal)
       if(newVal){
         this.$router.push('/')
       }

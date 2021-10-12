@@ -26,3 +26,15 @@
     cursor: pointer;
     color: aqua;
 }
+
+.users-box{
+    background-color: aliceblue;
+}
+
+.single-user{
+    border-bottom: solid .02em grey;
+}
+
+.single-user:hover{
+    background-color: #fffbfb;
+}
