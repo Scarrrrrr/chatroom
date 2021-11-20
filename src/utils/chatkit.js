@@ -1,5 +1,6 @@
 // import { ChatManager, TokenProvider } from '@pusher/chatkit-client'
 import { axios } from '../utils/request'
+import _this from '../main.js'
 import moment from 'moment'
 import store from '../store/index'
 
@@ -65,11 +66,23 @@ async function subscribeToRoom(roomId) {
   return activeRoom;
 }
 async function sendMessage(text) {
-  const messageId = await currentUser.sendMessage({
-    text,
-    roomId: activeRoom.id
-  });
-  return messageId;
+  // const messageId = await currentUser.sendMessage({
+  //   text,
+  //   roomId: activeRoom.id
+  // });
+  // return messageId;
+  axios({
+    url:'/message/send',
+    method:'post',
+    data:{
+      username:_this.state.user.username,
+      text:text
+    }
+  }).then(res=>{
+    console.log(res)
+  }).catch(err=>{
+    alert(err)
+  })
 }
 
 export function isTyping(roomId) {

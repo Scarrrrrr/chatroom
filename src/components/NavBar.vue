@@ -27,11 +27,6 @@ export default {
       this.$router.go(0)
     }
   },
-  mounted(){
-    if(!this.user){
-      this.$router.push('/login')
-    }
-  }
 }
 </script>
 

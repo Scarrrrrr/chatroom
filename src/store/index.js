@@ -3,6 +3,7 @@ import Vuex from 'vuex'
 import VuexPersistence from 'vuex-persist'
 import mutations from './mutations'
 import actions from './actions'
+import _this from '../main.js'
 
 Vue.use(Vuex)
 
@@ -18,7 +19,7 @@ const store = new Vuex.Store({
         error: null,
         user: null,
         reconnect: false,
-        activeRoom: null,
+        activeRoom: 0,
         rooms: [],
         users: [],
         messages: [],

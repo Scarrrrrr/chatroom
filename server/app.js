@@ -143,6 +143,7 @@ const io = require('socket.io')(server,{
 io.sockets.on('connection', socket=>{
     // console.log(socket.handshake.headers)
     // socket.use()
+    console.log('user connected')
     socket.on('disconnect',()=>{
         console.log('user disconnected')   
     })

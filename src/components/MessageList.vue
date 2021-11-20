@@ -1,8 +1,8 @@
 <template>
   <div class="message-list">
-    <h4>Messages</h4>
+    <div class="rooms-title">Messages In Room {{activeRoom}}</div>
     <hr>
-    <div id="chat-messages" class="message-group" v-chat-scroll="{smooth: true}">
+    <div id="chat-messages" class="message-group">
       <div class="message" v-for="(message, index) in messages" :key="index">
         <div class="clearfix">
           <h4 class="message-title">{{ message.name }}</h4>
@@ -16,12 +16,13 @@
         </div>
       </div>
     </div>
-    <div>
+    <div class="chat-bottom-box">
       <el-input
+        class="send-input"
         placeholder="Enter Message"
         v-model="messageToSend">
       </el-input>
-      <el-button @click="submit" type="success">发送</el-button>
+      <el-button @click="submit" class="send-button">发送</el-button>
     </div>
   </div>
 </template>
@@ -48,8 +49,16 @@ export default {
       'sendMessage'
     ]),
     submit(){
+      console.log(this.messageToSend)
       this.sendMessage(this.messageToSend)
-    }
+      this.messageToSend = ""
+    },
+    handleKeyUp(e) {
+      if (e.keyCode === 13) {
+        this.sendMessage(this.messageToSend)
+        this.messageToSend = ""
+      }
+    },
   },
   mounted(){
     
@@ -63,7 +72,7 @@ export default {
   padding-right: 15px;
 }
 .message-group {
-  height: 65vh !important;
+  height: 60vh !important;
   overflow-y: scroll;
 }
 .message {

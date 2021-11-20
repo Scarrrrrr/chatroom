@@ -28,7 +28,7 @@ module.exports={
         hotOnly: true, //不自动刷新浏览器，省去很多麻烦
         open:true
     },
-    devtool: 'eval-source-map',
+    devtool: 'source-map',
     resolve:{
         alias:{
             utils: path.resolve(__dirname, 'utils')

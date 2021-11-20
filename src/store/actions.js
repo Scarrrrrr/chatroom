@@ -11,7 +11,6 @@ export default {
     try {
       commit('setError', '');
       commit('setLoading', true);
-      // Connect user to ChatKit service
       const currentUser = await chatkit.connectUser(loginParam);
       if(!currentUser){
         return false
@@ -56,8 +55,7 @@ export default {
     try {
       commit('setError', '');
       commit('setSending', true);
-      const messageId = await chatkit.sendMessage(message);
-      return messageId;
+      return await chatkit.sendMessage(message);
     } catch (error) {
       handleError(commit, error)
     } finally {

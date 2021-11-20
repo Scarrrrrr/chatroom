@@ -69,25 +69,11 @@ export default {
       }
     }
   },
-  mounted(){
-    if(this.$cookies.get('token')){
-      this.$router.push("/")
-    }
-  },
   computed:{
     isValid:function(){
       const result = this.loginForm.username.length>2 
       return result? result:""
     },
-    ...mapState([
-      'user',
-      'loading',
-      'error'
-    ]),
-    ...mapGetters([
-      'isLogin',
-      'hasError'
-    ])
   },
   created(){
     window.addEventListener('resize', this.getWidthNHeight)
@@ -95,11 +81,6 @@ export default {
   },
   destroyed(){
     window.removeEventListener('resize', this.getWidthNHeight)
-  },
-  mounted(){
-    if(this.user){
-      this.$router.push('/')
-    }
   },
   methods:{
     ...mapActions([
@@ -116,54 +97,9 @@ export default {
     },
     submit(){
       this.login(this.loginForm)
-      // this.$router.go(0)
     },
-    // login() {
-    //   const params = new URLSearchParams()
-    //   params.append('username', this.loginForm.username)
-    //   params.append('password', this.loginForm.password)
-    //   params.append('remember-me', this.loginForm.rememberMe)
-
-    //   this.$axios.post('/login',this.loginForm)
-    //     .then(res => {
-    //       if (res.data.code === 401) {
-    //         this.$message({ message: '用户名或密码错误!', type: 'warning' })
-    //       }else if(res.data.code==200) {
-    //         var rawToken = res.headers.token
-    //         // console.log(res.headers)
-    //         // 缓存一天
-    //         let expireDays = 60 * 60 * 24
-    //         if (this.loginForm.rememberMe) {
-    //           expireDays *= 7
-    //         }
-    //         this.$cookies.set('token', rawToken, expireDays)
-    //         const user = res.data.user
-    //         if (user._id) {
-    //           this.$cookies.set('user', user._id, expireDays)
-    //         }
-
-    //         this.$router.push('/')
-    //         // this.$store.commit('login', {
-    //         //   user: user.id,
-    //         //   remember: this.loginForm.rememberMe
-    //         // })
-    //         // this.$ws.send(rawToken)
-    //         // this.$router.go(0)
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       this.$message({ message: err, type: 'error' })
-    //     })
-    // },
     register(){
       this.$router.push('/register')
-    }
-  },
-  watch:{
-    isLogin(newVal,oldVal){
-      if(newVal){
-        this.$router.push('/')
-      }
     }
   }
 }
