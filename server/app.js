@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const { User } = require('./mongoose-db');
+const { User, Message } = require('./mongoose-db')
 // const cookieSession = require('cookie-session')
 
 const jwt = require('jsonwebtoken')
@@ -38,14 +38,24 @@ app.all("*",function(req,res,next){
 */
 app.post('/register', (req,res)=>{
     const user = req.body
-    console.log(user)
     const beta = new User(user)
-    beta.save(function(err){
-        if(err){
-           res.send({code:400,msg:err}) 
-        } 
-        else{
-            res.send({code:200,msg:'注册成功',user:user})
+    User.findOne({
+        username:user.username
+    },function(err,userinfo){
+        if(userinfo){
+            res.send({
+                code:400,
+                msg:"同名用户已被注册！"
+            })
+        }else{
+            beta.save(function(err){
+                if(err){
+                   res.send({code:400,msg:err}) 
+                } 
+                else{
+                    res.send({code:200,msg:'注册成功',user:user})
+                }
+            })
         }
     })
 })
@@ -119,6 +129,43 @@ app.get('/api/loginout',(res,req)=>{
     res.send({
         code:200,
         data:'退出登录成功'
+    })
+})
+
+app.get('/message/get',(res,req)=>{
+    let roomId = req.req.query.roomId
+    Message.find({
+        roomId:roomId
+    },function(err,messages){
+        if(messages){
+            res.res.send({
+                code:200,
+                messages:messages
+            })
+        }else{
+            res.res.send({
+                code:200,
+                messages:[]
+            })
+        }
+    })
+})
+
+app.post('/message/send',(res,req)=>{
+    const message = req.req.body
+    const beta = new Message(message)
+    beta.save(function(err){
+        if(err){
+            res.res.send({
+                code:400,
+                msg:err
+            })
+        }else{
+            res.res.send({
+                code:200,
+                msg:"发送成功"
+            })
+        }
     })
 })
 

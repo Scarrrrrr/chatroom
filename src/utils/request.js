@@ -28,7 +28,6 @@ const err = (error) => {
         description: data.msg
       })
     }
-    console.log(data)
     if (error.response.status === 401 && !(data.result && data.result.isLogin)) {
       Message({
         message: 'Unauthorized',

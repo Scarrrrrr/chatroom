@@ -43,14 +43,11 @@ const ChatList_Schema = new Schema({
  */
 
 const Message_Schema = new Schema({
-    messageid: Number,
-    linkid: Number,
-    fromUser: String,
-    toUser: String,
+    id: Number,
+    roomId: Number,
+    username: String,
     content: String,
-    sendTime: Date,
-    type: String,
-    isLatest: Boolean
+    date: String
 })
 
 const User = mongoose.model("User", User_Schema)

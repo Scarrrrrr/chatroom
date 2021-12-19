@@ -1,7 +1,6 @@
 <template>
   <div class="message-list">
     <div class="rooms-title">Messages In Room {{activeRoom}}</div>
-    <hr>
     <div id="chat-messages" class="message-group">
       <div class="message" v-for="(message, index) in messages" :key="index">
         <div class="clearfix">
@@ -9,7 +8,7 @@
           <small class="text-muted float-right">@{{ message.username }}</small>
         </div>
         <p class="message-text">
-          {{ message.text }}
+          {{ message.content }}
         </p>
         <div class="clearfix">
           <small class="text-muted float-right">{{ message.date }}</small>
@@ -19,6 +18,7 @@
     <div class="chat-bottom-box">
       <el-input
         class="send-input"
+        @keyup.enter.native="handleKeyUp"
         placeholder="Enter Message"
         v-model="messageToSend">
       </el-input>
@@ -46,10 +46,10 @@ export default {
   },
   methods:{
     ...mapActions([
-      'sendMessage'
+      'sendMessage',
+      'getMessage'
     ]),
     submit(){
-      console.log(this.messageToSend)
       this.sendMessage(this.messageToSend)
       this.messageToSend = ""
     },
@@ -60,13 +60,26 @@ export default {
       }
     },
   },
-  mounted(){
-    
+  watch:{
+    "$store.state.activeRoom":{
+      deep:true,
+      handler:function(newVal){
+        this.getMessage(newVal)
+      }
+    }
   }
 }
 </script>
 
 <style>
+::-webkit-scrollbar{
+  width:.5em;
+  background-color: white;
+}
+::-webkit-scrollbar-thumb{
+  background-color: rgb(36, 36, 31);
+  border-radius: .3em;
+}
 .message-list {
   margin-bottom: 15px;
   padding-right: 15px;

@@ -1,7 +1,6 @@
 <template>
   <div class="user-list">
     <div class="rooms-title">Existing Rooms</div>
-    <hr>
     <div class="users-box">
       <div @click="changeRoom(k)" :class="activeRoom==k?'single-room selected':'single-room'" v-for="(room,k) in rooms" :key="k">
         <div class="avatar">
@@ -51,11 +50,6 @@ export default {
       'users',
       'activeRoom'
     ])
-  },
-  watch:{
-    activeRoom(newVal, oldVal){
-      console.log(newVal.roomId)
-    }
   },
   methods: {
     statusColor(status) {

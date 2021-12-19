@@ -7,7 +7,7 @@ function handleError(commit, error) {
 }
 
 export default {
-  async login({ commit, state }, loginParam) {
+  async login({ commit }, loginParam) {
     try {
       commit('setError', '');
       commit('setLoading', true);
@@ -23,45 +23,52 @@ export default {
         commit('setLogin', true)
         return true;
       }
-      // Save list of user's rooms in store
-      // const rooms = currentUser.rooms.map(room => ({
-      //   id: room.id,
-      //   name: room.name
-      // }))
-      // commit('setRooms', rooms);
-
-      // Subscribe user to a room
-      // const activeRoom = state.activeRoom || rooms[0]; // pick last used room, or the first one
-      // commit('setActiveRoom', {
-      //   id: activeRoom.id,
-      //   name: activeRoom.name
-      // });
-      // await chatkit.subscribeToRoom(activeRoom.id);
     } catch (error) {
       handleError(commit, error)
     } finally {
       commit('setLoading', false);
     }
   },
+
   async changeRoom({ commit }, roomId) {
     try {
-      // const { id, name } = await chatkit.subscribeToRoom(roomId);
       commit('setActiveRoom',  roomId );
     } catch (error) {
       handleError(commit, error)
     }
   },
+
+  async getMessage({ commit }, roomId) {
+    try{
+      commit('setError', '')
+      const messages = await chatkit.getMessage(roomId)
+      console.log(messages)
+      if(!messages){
+        return false
+      }else{
+        commit('setMessages', [...messages])
+        return true
+      }
+    }catch(error){
+      handleError(commit, error)
+      alert(error)
+    }
+  },
+
   async sendMessage({ commit }, message) {
     try {
-      commit('setError', '');
-      commit('setSending', true);
-      return await chatkit.sendMessage(message);
+      commit('setError', '')
+      commit('setSending', true)
+      const newMessage = await chatkit.sendMessage(message)
+      if(newMessage) commit('addMessage',newMessage)
     } catch (error) {
       handleError(commit, error)
+      alert(error)
     } finally {
       commit('setSending', false);
     }
   },
+
   async logout({ commit }) {
     commit('reset');
     _this.$cookies.remove('token')

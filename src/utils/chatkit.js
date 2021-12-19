@@ -8,8 +8,10 @@ const INSTANCE_LOCATOR = process.env.VUE_APP_INSTANCE_LOCATOR;
 const TOKEN_URL = process.env.VUE_APP_TOKEN_URL;
 const MESSAGE_LIMIT = Number(process.env.VUE_APP_MESSAGE_LIMIT) || 10;
 
-let currentUser = null;
-let activeRoom = null;
+let currentUser = null
+let activeRoom = null
+let messages = null
+let newMessage = null
 
 function setMembers() {
   const members = activeRoom.users.map(user => ({
@@ -21,11 +23,6 @@ function setMembers() {
 }
 
 async function connectUser(loginParam) {
-//   const chatManager = new ChatManager({
-//     instanceLocator: INSTANCE_LOCATOR,
-//     tokenProvider: new TokenProvider({ url: TOKEN_URL }),
-//     userId
-//   });
   await axios({
     url:"/login",
     method: "post",
@@ -33,8 +30,7 @@ async function connectUser(loginParam) {
   }).then(res=>{
     currentUser = res.user
   })
-  // currentUser = await chatManager.connect();
-  return currentUser;
+  return currentUser
 }
 
 async function subscribeToRoom(roomId) {
@@ -66,27 +62,34 @@ async function subscribeToRoom(roomId) {
   return activeRoom;
 }
 async function sendMessage(text) {
-  // const messageId = await currentUser.sendMessage({
-  //   text,
-  //   roomId: activeRoom.id
-  // });
-  // return messageId;
-  axios({
+  const param = {
+    username:_this.$store.state.user.username,
+    content:text,
+    roomId:_this.$store.state.activeRoom,
+    date:moment(new Date().getTime()).format('YYYY-MM-DD hh:mm:ss')
+  }
+  await axios({
     url:'/message/send',
     method:'post',
-    data:{
-      username:_this.state.user.username,
-      text:text
-    }
+    data: param
   }).then(res=>{
-    console.log(res)
+    newMessage = param
   }).catch(err=>{
     alert(err)
   })
+  return newMessage
 }
 
-export function isTyping(roomId) {
-  currentUser.isTypingIn({ roomId });
+async function getMessage(roomId){
+  await axios({
+    url:`/message/get?roomId=${roomId}`,
+    method:"get"
+  }).then(res=>{
+    messages = res.messages
+  }).catch(err=>{
+    alert(err)
+  })
+  return messages
 }
 
 function disconnectUser() {
@@ -97,5 +100,6 @@ export default {
   connectUser,
   subscribeToRoom,
   sendMessage,
-  disconnectUser
+  disconnectUser,
+  getMessage
 }

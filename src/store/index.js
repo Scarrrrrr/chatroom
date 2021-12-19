@@ -22,7 +22,7 @@ const store = new Vuex.Store({
         activeRoom: 0,
         rooms: [],
         users: [],
-        messages: [],
+        messages: null,
         userTyping: null
     },
     mutations,

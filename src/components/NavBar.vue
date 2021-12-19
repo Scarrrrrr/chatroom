@@ -3,8 +3,11 @@
     <span href="#">
       Vue Chat
     </span>
-    <span>{{ user.username }} | </span>
-    <span class="logout" @click="quit">Logout</span>
+    <div class="personal-state">
+      <span>{{ user.username }} | </span>
+      <span class="logout" @click="quit">Logout</span>      
+    </div>
+
   </div>
 </template>
 
