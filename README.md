@@ -1,4 +1,3 @@
 # vue-node-chatroom
- 基于vue和node.js制作的聊天室
-
-暂时还没完结= = 估计快了
+ 前端使用vue，后端使用node.js，实现了登录注册，JWT身份验证、多人聊天室聊天功能。
+ 相关技术栈：vue,vuex, vue-router, node.js, express, mongoDB
